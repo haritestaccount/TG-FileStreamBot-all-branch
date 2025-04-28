@@ -29,7 +29,8 @@ func start(ctx *ext.Context, u *ext.Update) error {
 
     // Force subscribe check
     channelUsername := "@haris_garage" // Replace with your channel username
-    chatMember, err := ctx.Bot.GetChatMember(channelUsername, chatId)
+    // Using ctx.Bot is not valid in gotgproto, so replace with appropriate method
+    chatMember, err := ctx.Bot().GetChatMember(channelUsername, chatId) // Correctly access bot instance
     if err != nil || chatMember.Status == "left" || chatMember.Status == "kicked" {
         // User is not subscribed to the required channel
         ctx.Reply(u, "Please join my channel "+channelUsername+" to use this bot.", nil)
