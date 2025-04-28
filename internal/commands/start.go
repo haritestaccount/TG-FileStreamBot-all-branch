@@ -27,18 +27,17 @@ func start(ctx *ext.Context, u *ext.Update) error {
         return dispatcher.EndGroups
     }
 
-    // Force subscribe check
+    // Force subscribe logic
     channelUsername := "@haris_garage" // Replace with your channel username
-    // Using ctx.Bot is not valid in gotgproto, so replace with appropriate method
-    chatMember, err := ctx.Bot().GetChatMember(channelUsername, chatId) // Correctly access bot instance
+    chatMember, err := ext.GetChatMember(ctx.BotAPI(), channelUsername, chatId) // Use correct method to get bot API
     if err != nil || chatMember.Status == "left" || chatMember.Status == "kicked" {
-        // User is not subscribed to the required channel
+        // User is not subscribed
         ctx.Reply(u, "Please join my channel "+channelUsername+" to use this bot.", nil)
         ctx.Reply(u, "Join here: https://t.me/"+channelUsername[1:], nil)
-        return dispatcher.EndGroups // End further processing
+        return dispatcher.EndGroups
     }
 
-    // Proceed with normal functionality if subscribed
+    // Normal bot functionality
     ctx.Reply(u, "hi", nil)
     return dispatcher.EndGroups
 }
