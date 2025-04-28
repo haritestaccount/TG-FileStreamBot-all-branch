@@ -33,7 +33,7 @@ func start(ctx *ext.Context, u *ext.Update) error {
     if err != nil || chatMember.Status == "left" || chatMember.Status == "kicked" {
         // User is not subscribed to the required channel
         ctx.Reply(u, "Please join my channel "+channelUsername+" to use this bot.", nil)
-        ctx.Reply(u, "Join here: https://t.me/haris_garage, nil)
+        ctx.Reply(u, "Join here: https://t.me/"+channelUsername[1:], nil)
         return dispatcher.EndGroups // End further processing
     }
 
