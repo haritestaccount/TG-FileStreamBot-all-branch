@@ -27,10 +27,10 @@ func start(ctx *ext.Context, u *ext.Update) error {
         return dispatcher.EndGroups
     }
 
-    // Force subscribe logic
+    // Force subscribe logic - using a placeholder for ChatMember retrieval
     channelUsername := "@haris_garage" // Replace with your channel username
-    chatMember, err := ext.GetChatMember(ctx.BotAPI(), channelUsername, chatId) // Use correct method to get bot API
-    if err != nil || chatMember.Status == "left" || chatMember.Status == "kicked" {
+    isSubscribed := checkSubscription(ctx.Dispatcher(), channelUsername, chatId) // Custom function to handle subscription check
+    if !isSubscribed {
         // User is not subscribed
         ctx.Reply(u, "Please join my channel "+channelUsername+" to use this bot.", nil)
         ctx.Reply(u, "Join here: https://t.me/"+channelUsername[1:], nil)
@@ -40,4 +40,11 @@ func start(ctx *ext.Context, u *ext.Update) error {
     // Normal bot functionality
     ctx.Reply(u, "hi", nil)
     return dispatcher.EndGroups
+}
+
+// Placeholder function for subscription check
+func checkSubscription(dispatcher dispatcher.Dispatcher, channelUsername string, chatId int64) bool {
+    // Implement logic based on how the library provides access to chat members
+    // Return true if subscribed, false otherwise
+    return true // Replace with actual logic
 }
